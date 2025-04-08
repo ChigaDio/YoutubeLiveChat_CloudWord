@@ -39,7 +39,8 @@ jobs:
                     main.py
 
     - name: Upload artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4  # ここを修正
       with:
         name: wordcloud-app
         path: dist/main
+        retention-days: 1
