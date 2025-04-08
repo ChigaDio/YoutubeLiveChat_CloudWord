@@ -1,5 +1,4 @@
 import re
-import MeCab
 import numpy as np
 from wordcloud import WordCloud
 from PIL import Image, ImageDraw, ImageFont
@@ -21,7 +20,7 @@ def create_inverted_mask(image_path):
     opaque_area = (data[..., 3] == 255)
     new_data[opaque_area] = [0, 0, 0, 255]  # 黒（不透明）
 
-    # PIL.Image オブジェクトに変換
+    # PIL.Image オブジェクトに変換S
     return Image.fromarray(new_data, 'RGBA')
 
 from PIL import Image
