@@ -1,8 +1,17 @@
 name: Build and Deploy
 
 on:
+  # 毎日24時（日本時間）に実行（UTC基準で15:00）
+  schedule:
+    - cron: '0 15 * * *'  # UTC 15:00 = 日本時間 24:00
+
+  # main.pyが更新された時にも実行
   push:
     branches: [ main ]
+    paths:
+      - 'main.py'
+
+  # プルリクエスト時にも実行（任意）
   pull_request:
     branches: [ main ]
 
