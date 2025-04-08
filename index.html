@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WordCloud with Mask</title>
+    <script src="https://cdn.jsdelivr.net/npm/wordcloud@1.1.0/src/wordcloud2.js"></script>
+</head>
+<body>
+    <!-- マスク画像（非表示） -->
+    <img id="mask" src="steve-jobs-black-silhouette.png" style="display: none;" />
+
+    <!-- ワードクラウド描画領域 -->
+    <canvas id="wordcloud"></canvas>
+
+    <script>
+        window.addEventListener('load', function() {
+            const mask = document.getElementById('mask');
+            const canvas = document.getElementById('wordcloud');
+
+            // canvasサイズをマスク画像に合わせる
+            canvas.width = mask.naturalWidth;
+            canvas.height = mask.naturalHeight;
+
+            // ワードクラウド生成
+            WordCloud(canvas, {
+              list: [
+              // プログラミング言語
+              ['JavaScript', 50], ['Python', 48], ['Java', 46], ['C++', 44], 
+              ['C#', 42], ['PHP', 40], ['Ruby', 38], ['Go', 36], ['Rust', 34],
+              ['Swift', 32], ['Kotlin', 30], ['TypeScript', 28], ['SQL', 26],
+              ['R', 24], ['Perl', 22], ['Scala', 20], ['Haskell', 18],
+              
+              // フロントエンド
+              ['React', 47], ['Vue.js', 45], ['Angular', 43], ['Svelte', 41],
+              ['Next.js', 39], ['Nuxt.js', 37], ['Redux', 35], ['WebGL', 33],
+              ['Three.js', 31], ['D3.js', 29], ['jQuery', 27], ['Bootstrap', 25],
+              
+              // バックエンド
+              ['Node.js', 49], ['Django', 47], ['Flask', 45], ['Spring Boot', 43],
+              ['Express', 41], ['Laravel', 39], ['ASP.NET', 37], ['FastAPI', 35],
+              ['GraphQL', 33], ['gRPC', 31], ['Nginx', 29], ['Apache', 27],
+              
+              // クラウド/インフラ
+              ['AWS', 50], ['Azure', 48], ['GCP', 46], ['Docker', 44], 
+              ['Kubernetes', 42], ['Terraform', 40], ['Ansible', 38], ['Jenkins', 36],
+              ['Prometheus', 34], ['Grafana', 32], ['Elasticsearch', 30], ['Kafka', 28],
+              
+              // データベース
+              ['MySQL', 47], ['PostgreSQL', 45], ['MongoDB', 43], ['Redis', 41],
+              ['Cassandra', 39], ['DynamoDB', 37], ['SQLite', 35], ['Neo4j', 33],
+              ['Couchbase', 31], ['InfluxDB', 29], ['MariaDB', 27], ['Oracle', 25],
+              
+              // AI/ML
+              ['TensorFlow', 46], ['PyTorch', 44], ['Keras', 42], ['Scikit-learn', 40],
+              ['OpenCV', 38], ['NLTK', 36], ['Spacy', 34], ['AutoML', 32],
+              ['GAN', 30], ['NLP', 28], ['Computer Vision', 26], ['Reinforcement Learning', 24],
+              
+              // ツール
+              ['Git', 49], ['GitHub', 47], ['GitLab', 45], ['Jira', 43],
+              ['Slack', 41], ['Docker Desktop', 39], ['VS Code', 37], ['IntelliJ', 35],
+              ['Postman', 33], ['Swagger', 31], ['Figma', 29], ['Blender', 27],
+              
+              // 最新トレンド（2023）
+              ['WebAssembly', 40], ['Rust', 38], ['WASM', 36], ['Edge Computing', 34],
+              ['Serverless', 32], ['Quantum Computing', 30], ['Metaverse', 28],
+              ['Web3', 26], ['DeFi', 24], ['NFT', 22], ['AR/VR', 20],
+              
+              // 追加単語（さらに100個）
+              ['Unity', 19], ['Unreal Engine', 18], ['CryEngine', 17], ['Godot', 16],
+              ['Agile', 15], ['Scrum', 14], ['Kanban', 13], ['DevOps', 12],
+              ['CI/CD', 11], ['Microservices', 10], ['Monorepo', 9], ['YAML', 8],
+              ['JSON', 7], ['REST', 6], ['SOAP', 5], ['OAuth', 4],
+              ['JWT', 3], ['SAML', 2], ['SSO', 1], ['PWA', 19],
+              ['AMP', 18], ['SEO', 17], ['SEM', 16], ['GA4', 15],
+              ['BigQuery', 14], ['Snowflake', 13], ['Data Lake', 12], ['Data Mesh', 11],
+              ['MLOps', 10], ['AIOps', 9], ['FinOps', 8], ['DataOps', 7],
+              ['Blockchain', 6], ['Solidity', 5], ['Vyper', 4], ['Hyperledger', 3],
+              ['IoT', 2], ['Edge AI', 1], ['5G', 19], ['WiFi6', 18],
+              ['Cybersecurity', 17], ['PenTest', 16], ['GDPR', 15], ['CCPA', 14],
+              ['Zero Trust', 13], ['SASE', 12], ['SD-WAN', 11], ['RPA', 10],
+              ['Low-code', 9], ['No-code', 8], ['BPM', 7], ['ECM', 6],
+              ['Digital Twin', 5], ['Industry 4.0', 4], ['Smart Factory', 3], ['IIoT', 2],
+              ['EV', 1], ['Autonomous Driving', 19], ['LiDAR', 18], ['UAV', 17],
+              ['Drone', 16], ['Robotics', 15], ['ROS', 14], ['SLAM', 13],
+              ['ARCore', 12], ['ARKit', 11], ['Vuforia', 10], ['OpenXR', 9],
+              ['WebXR', 8], ['HoloLens', 7], ['Magic Leap', 6], ['Oculus', 5],
+              ['Unreal Engine 5', 4], ['Nanite', 3], ['Lumen', 2], ['Pathtracer', 1],
+              ['USDZ', 19], ['glTF', 18], ['WebGPU', 17], ['Wasm', 16],
+              ['RISC-V', 15], ['TPU', 14], ['FPGA', 13], ['ASIC', 12],
+              ['HPC', 11], ['Supercomputing', 10], ['CUDA', 9], ['OpenCL', 8],
+              ['MPI', 7], ['OpenMP', 6], ['Ray Tracing', 5], ['Neural Rendering', 4],
+              ['Procedural Generation', 3], ['Generative AI', 2], ['Stable Diffusion', 1]
+          ],
+                maskImage: mask,    // マスク画像を指定
+                color: 'random-dark', // 色の設定
+                rotateRatio: 0.5,  // 文字の回転確率
+                backgroundColor: '#f0f0f0'
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+matplotlib
+wordcloud
+numpy
+pyinstaller
