@@ -13,42 +13,6 @@ on:
     
 
 jobs:
-  linux-build:
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v4
-
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.9'
-
-    - name: Install system dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y mecab libmecab-dev mecab-ipadic-utf8
-
-    - name: Install Python dependencies
-      run: |
-        pip install -r requirements.txt
-        pip install pyinstaller
-
-    - name: Build Linux executable
-      run: |
-        pyinstaller --onefile \
-                    --name main_linux \
-                    --add-data "assets:assets" \
-                    --hidden-import=janome.tokenizer \
-                    --hidden-import=wordcloud \
-                    main.py
-        chmod +x dist/main_linux
-
-    - name: Upload Linux artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: wordcloud-linux
-        path: dist/main_linux
 
   windows-build:
     runs-on: windows-latest
