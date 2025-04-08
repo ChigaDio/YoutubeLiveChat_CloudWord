@@ -1,0 +1,47 @@
+name: Cross-Platform Build
+
+on:
+  push:
+    branches: [ main ]
+    paths: 
+      - 'main.py'
+      - 'assets/**'
+
+  # 毎日24時（日本時間）に実行（UTC基準で15:00）
+  schedule:
+    - cron: '0 15 * * *'  # UTC 15:00 = 日本時間 24:00
+    
+
+jobs:
+
+  windows-build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+        architecture: x64
+
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+        pip install pyinstaller
+
+    - name: Build Windows executable
+      run: |
+        pyinstaller --onefile ^
+                    --name main.exe ^
+                    --add-data "assets;assets" ^
+                    --hidden-import=janome.tokenizer ^
+                    --hidden-import=wordcloud ^
+                    main.py
+
+    - name: Upload Windows artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: wordcloud-windows
+        path: dist/main.exe
