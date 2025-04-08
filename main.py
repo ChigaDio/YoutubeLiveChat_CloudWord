@@ -3,7 +3,7 @@ import numpy as np
 from wordcloud import WordCloud
 from PIL import Image, ImageDraw, ImageFont
 
-#画像成型
+#画像成型#
 def create_inverted_mask(image_path):
     # 画像をRGBAモードで読み込み
     img = Image.open(image_path).convert('RGBA')
