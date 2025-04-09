@@ -34,10 +34,10 @@ jobs:
       run: |
         git clone https://github.com/pyinstaller/pyinstaller.git
         cd pyinstaller/bootloader
-        python ./waf distclean all --target-arch=64bit
+        python ./waf distclean all
         pip install wheel
         cd ../
-        pip install .
+        python setup.py install
 
     - name: Install dependencies
       run: |
