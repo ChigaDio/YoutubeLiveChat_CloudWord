@@ -28,11 +28,10 @@ jobs:
       shell: cmd
       run: |
         git clone https://github.com/pyinstaller/pyinstaller.git
-        cd pyinstaller
-        git checkout v6.12.0
-        cd bootloader
+        cd pyinstaller/bootloader
         python ./waf distclean all --target-arch=64bit
-        cd ..
+        pip install wheel
+        cd pyinstaller
         pip install .
 
     - name: Set up Python
@@ -57,11 +56,14 @@ jobs:
                     --hidden-import=wordcloud ^
                     main.py
 
+    - name: Copy assets into dist
+      shell: cmd
+      run: |
+        xcopy /E /I /Y assets dist\assets
+
     - name: Upload Windows artifact
       uses: actions/upload-artifact@v4
       with:
         name: wordcloud-windows
-        path: |
-          dist/wordcloud-windows.exe
-          assets/**
+        path: dist/**
         if-no-files-found: error
