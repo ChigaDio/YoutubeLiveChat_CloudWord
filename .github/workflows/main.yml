@@ -43,6 +43,8 @@ jobs:
                           --output-dir=dist ^
                           --include-data-dir=assets=assets ^
                           --assume-yes-for-downloads ^
+                          --remove-output --no-upx ^  # 追加 [[1]]
+                          --windows-disable-console ^  # 追加（コンソール非表示）[[1]]
                           main.py
           REM exe 名を変更
           move dist\main.exe dist\wordcloud-windows.exe
