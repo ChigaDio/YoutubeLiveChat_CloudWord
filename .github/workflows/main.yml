@@ -31,7 +31,7 @@ jobs:
         cd pyinstaller/bootloader
         python ./waf distclean all --target-arch=64bit
         pip install wheel
-        cd pyinstaller
+        cd ../
         pip install .
 
     - name: Set up Python
