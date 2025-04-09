@@ -17,11 +17,16 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+        architecture: x64
+
     # ビルド環境準備
     - name: Set up build tools
       run: |
         choco install mingw -y
-        pip install wheel
 
     # PyInstallerブートローダー再構築
     - name: Prepare custom PyInstaller
@@ -33,12 +38,6 @@ jobs:
         pip install wheel
         cd ../
         pip install .
-
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.9'
-        architecture: x64
 
     - name: Install dependencies
       run: |
