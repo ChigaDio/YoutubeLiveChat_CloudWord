@@ -1,6 +1,5 @@
 matplotlib
 wordcloud
 numpy
-pyinstaller
 janome
 Pillow
