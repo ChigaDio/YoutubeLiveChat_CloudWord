@@ -1,4 +1,4 @@
-name: Cross-Platform Build
+name: PythonBuild
 
 on:
   push:
@@ -6,11 +6,9 @@ on:
     paths: 
       - 'main.py'
       - 'assets/**'
-
-  # 毎日24時（日本時間）に実行（UTC基準で15:00）
   schedule:
-    - cron: '0 15 * * *'  # UTC 15:00 = 日本時間 24:00
-    
+    - cron: '0 15 * * *'  # 日本時間 24:00
+  workflow_dispatch:       # ★★ 手動実行を追加 ★★
 
 jobs:
   windows-build:
@@ -18,6 +16,24 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+
+    # ビルド環境準備
+    - name: Set up build tools
+      run: |
+        choco install mingw -y
+        pip install wheel
+
+    # PyInstallerブートローダー再構築
+    - name: Prepare custom PyInstaller
+      shell: cmd
+      run: |
+        git clone https://github.com/pyinstaller/pyinstaller.git
+        cd pyinstaller
+        git checkout v6.12.0
+        cd bootloader
+        python ./waf distclean all --target-arch=64bit
+        cd ..
+        pip install .
 
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -28,12 +44,13 @@ jobs:
     - name: Install dependencies
       run: |
         pip install -r requirements.txt
-        pip install pyinstaller
 
+    # UPX無効化を追加
     - name: Build Windows executable
-      shell: cmd  # cmdで実行
+      shell: cmd
       run: |
         pyinstaller --onefile ^
+                    --noupx ^
                     --name wordcloud-windows.exe ^
                     --add-data "assets;assets" ^
                     --hidden-import=janome.tokenizer ^
@@ -44,4 +61,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: wordcloud-windows
-        path: dist/wordcloud-windows.exe
+        path: |
+          dist/wordcloud-windows.exe
+          assets/**
+        if-no-files-found: error
